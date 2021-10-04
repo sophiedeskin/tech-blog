@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technology Blog</title>
+  <link rel="stylesheet" href="/css/style.css" />
+
+</head>
+  <header>
+    <h1 class = "text-center text-xl p-6">Welcome to the Technology Blog!</h1>
+  </header>
+  <nav class = "p-4">
+    <a class = "p-4" href="/">Home</a>
+    <!-- If the user is logged in, show a logout button -->
+    {{#if loggedIn}}
+    <button id="logout" class="btn-no-style">Logout</button>
+    {{else}}
+    <!-- Otherwise, show a link to login -->
+    <a class = "p-4" href="/login">Login</a>
+    {{/if}}
+        {{#if loggedOut}}
+    <button id="signup" class="btn-no-style">Signup</button>
+    {{else}}
+    <!-- Otherwise, show a link to signup -->
+    <a class = "p-4" href="/signup">Sign up</a>
+    {{/if}}
+        <!-- If the user is logged in, show a logout button -->
+   
+    <button id="add-post" class="btn-no-style">Create New Post</button>
+    
+  </nav>
+  <main>
+            {{{ body }}}
+    </main>
+<script src = "../js/logout"
+</html>
