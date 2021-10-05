@@ -40,7 +40,7 @@ router.get('/:id', async (req, res) => {
 
 
 // CREATE new user
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const dbPostData = await Post.create({
       title: req.body.title,
@@ -48,7 +48,7 @@ router.post('/', withAuth, async (req, res) => {
     });
 
     req.session.save(() => {
-      req.session.logged_in = true;
+      req.session.loggedIn = true;
       res.status(200).json(dbPostData);
     });
   } catch (err) {
@@ -77,7 +77,7 @@ router.put('/:id', async (req, res) => {
   }
 })
 
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const dbPostData = await Post.destroy({
             where: {
@@ -90,7 +90,7 @@ router.delete('/:id', withAuth, async (req, res) => {
           }
       
         req.session.save(() => {
-          req.session.logged_in = true;
+          req.session.loggedIn = true;
           res.status(200).json(dbPostData);
         });
       } catch (err) {

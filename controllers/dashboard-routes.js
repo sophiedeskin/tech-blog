@@ -3,7 +3,7 @@ const sequelize = require("../config/connection");
 const { Comment, Post, User } = require("../models");
 const withAuth = require("../utils/auth");
 
-router.get("/", withAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const dbPostData = await Post.findAll({
       where: {
@@ -36,5 +36,6 @@ router.get("/", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;

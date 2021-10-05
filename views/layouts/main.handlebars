@@ -16,23 +16,18 @@
     <!-- If the user is logged in, show a logout button -->
     {{#if loggedIn}}
     <button id="logout" class="btn-no-style">Logout</button>
+    <a class = "p-4" href="/new">Create New Post</a>
     {{else}}
     <!-- Otherwise, show a link to login -->
+    <a class = "p-4" href="/signup">Sign up</a>
     <a class = "p-4" href="/login">Login</a>
     {{/if}}
-        {{#if loggedOut}}
-    <button id="signup" class="btn-no-style">Signup</button>
-    {{else}}
-    <!-- Otherwise, show a link to signup -->
-    <a class = "p-4" href="/signup">Sign up</a>
-    {{/if}}
-        <!-- If the user is logged in, show a logout button -->
    
-    <button id="add-post" class="btn-no-style">Create New Post</button>
     
   </nav>
   <main>
             {{{ body }}}
     </main>
-<script src = "../js/logout"
 </html>
+<script src="/js/logout.js"></script>
+<script src="/js/add-post.js"></script>
