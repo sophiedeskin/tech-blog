@@ -20,4 +20,4 @@ const addpostFormHandler = async (event) => {
 
       }
     };
-    document.querySelector('#create-post').addEventListener('click', addpostFormHandler);
+    document.querySelector('#add-post').addEventListener('click', addpostFormHandler);
