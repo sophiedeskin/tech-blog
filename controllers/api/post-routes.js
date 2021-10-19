@@ -40,22 +40,18 @@ router.get('/:id', async (req, res) => {
 
 
 // CREATE new user
-router.post('/', async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   try {
-    const dbPostData = await Post.create({
-      title: req.body.title,
-      post_text: req.body.post_text,
-    });
-
-    req.session.save(() => {
-      req.session.loggedIn = true;
-      res.status(200).json(dbPostData);
-    });
+      const dbPostData = await Post.create({
+          ...req.body,
+          user_id: req.session.user_id,
+      });
+      res.status(200).json(dbPostData)
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+      res.status(400).json("failed to create post!")
+      console.log(err)
   }
-});
+})
 
 router.put('/:id', async (req, res) => {
   // update a post by its `id` value

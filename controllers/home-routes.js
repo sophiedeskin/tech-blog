@@ -129,5 +129,10 @@ router.post('/new', async (req, res) => {
     res.status(500).json(err);
   }
 });
+router.get('/dashboard', (req, res) => {
+  res.render('dashboard', {
+    layout: 'dashboard',
+  });
+});
 
 module.exports = router;

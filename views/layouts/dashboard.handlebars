@@ -14,18 +14,13 @@
   <nav class = "p-4">
     <a class = "p-4" href="/">Home</a>
     <!-- If the user is logged in, show a logout button -->
-    {{#if loggedIn}}
     <button id="logout" class="btn-no-style">Logout</button>
     <a class = "p-4" href="/new">Create New Job</a>
-    {{else}}
-    <!-- Otherwise, show a link to login -->
-    <a class = "p-4" href="/signup">Sign up</a>
-    <a class = "p-4" href="/login">Login</a>
-    {{/if}}
-   
     
   </nav>
   <main class="bg-gray-100 text-gray-700  font-sans quicksand">
             {{{ body }}}
     </main>
 </html>
+<script src="/js/logout.js"></script>
+<script src="/js/add-post.js"></script>
