@@ -1,29 +1,8 @@
+{{#each posts as |post|}}
 
-     {{#if posts.length}}
-     {{#each posts as |post|}}
-        {{> post-info post}}
-    <body class="bg-gray-100 text-gray-700  font-sans quicksand">
+{{> post-info post }}
+</div>
 
-        <div class="p-0 max-w-full">
-          <div class="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-1 m-5 mb-10">
-      
-      
-                  <div class="bg-white overflow-hidden hover:bg-green-100 border border-gray-200 p-3">
-              <div class="m-2 text-justify text-sm">
-                  <p class="text-right text-xs">May 17, 2020</p>
-                  <h2 class="font-bold text-lg h-2 mb-8" id="title">{{post.post_title}} </h2>
-                  <p class="text-xs"id="content">
-                  {{post.post_text}}
-                  </p>
-      
-              </div>
-              <div class="w-full text-right mt-4">
-                <a class="text-green-400 uppercase font-bold text-sm" href="#">Read More</a>
-              </div>
-          </div>
-      </body>
-      {{/each}}
-      {{else}}
-<h3 class="font-bold text-center">You do not currently have any posts</h3>
-
-{{/if}}
+{{else}}
+<h3 class="font-bold text-center">There are no posts, please create some!</h3>
+{{/each}}

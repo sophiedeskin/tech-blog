@@ -12,13 +12,15 @@
     <h1 class = "text-center text-xl p-6">Welcome to the Technology Blog!</h1>
   </header>
   <nav class = "p-4">
-    <a class = "p-4" href="/">Home</a>
     <!-- If the user is logged in, show a logout button -->
     {{#if loggedIn}}
+    <a class = "p-4" href="/">Home</a>
     <button id="logout" class="btn-no-style">Logout</button>
     <a class = "p-4" href="/new">Create New Job</a>
+    <a class = "p-4" href="/dashboard">Dashboard</a>
     {{else}}
     <!-- Otherwise, show a link to login -->
+    <a class = "p-4" href="/">Home</a>
     <a class = "p-4" href="/signup">Sign up</a>
     <a class = "p-4" href="/login">Login</a>
     {{/if}}
