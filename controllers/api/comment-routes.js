@@ -17,41 +17,24 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.put('/:id', withAuth, async (req, res) => {
-  // update a comment by its `id` value
-  try {
-    if (Object.keys(req.body).length === 0) {
-      res.status(400).json({ message: "Please provide an id to update to" })
-    }
 
-    const updateComment = await Comment.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    })
-    res.status(200).json(updateComment);
-
-
-  } catch (error) {
-    res.status(500).json(error);
-  }
-})
-// CREATE new user
-router.post('/', withAuth, async (req, res) => {
-  try {
-    const dbCommentData = await Comment.create({
+router.post('/', (req, res) => {
+  // check the session
+  if (req.session) {
+    Comment.create({
       comment_text: req.body.comment_text,
-    });
-
-    req.session.save(() => {
-      req.session.logged_in = true;
-      res.status(200).json(dbCommentData);
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+      post_id: req.body.post_id,
+      // use the id from the session
+      user_id: req.session.user_id,
+    })
+      .then(dbCommentData => res.json(dbCommentData))
+      .catch(err => {
+        console.log(err);
+        res.status(400).json(err);
+      });
   }
 });
+
 router.delete('/:id', withAuth, async (req, res) => {
     try {
         const dbCommentData = await Comment.destroy({

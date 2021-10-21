@@ -1,13 +1,13 @@
 const addpostFormHandler = async (event) => {
     event.preventDefault();
   
-    const title = document.querySelector('#title').value.trim();
-    const content = document.querySelector('#content').value.trim();
+    const post_title = document.querySelector('#title').value.trim();
+    const post_text = document.querySelector('#content').value.trim();
   
   
       const response = await fetch('/api/posts', {
         method: 'POST',
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ post_title, post_text }),
         headers: { 'Content-Type': 'application/json' },
       });
   

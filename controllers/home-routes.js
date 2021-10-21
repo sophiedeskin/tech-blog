@@ -2,7 +2,7 @@ const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Comment, Post, User } = require('../models');
 
-// GET all galleries for homepage
+
 router.get('/', async (req, res) => {
   try {
     const dbPostData = await Post.findAll({
@@ -40,38 +40,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-//GET one gallery
-router.get('/post/:id', async (req, res) => {
-  try {
-    const dbPostData = await Post.findByPk(req.params.id, {
-      include: [
-        {
-          model: Comment,
-          attributes: [
-            'id',
-            'comment_text',
-          ],
-        },      
-      ],
-      include: [
-        {
-          model: User,
-          attributes: [
-            'id',
-            'username',
-          ],
-        },      
-      ],
-    });
-
-    const post = dbPostData.get({ plain: true });
-    res.render('dashboard', { post, loggedIn: req.session.loggedIn });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
-
 
 // Login route
 router.get('/login', (req, res) => {
@@ -96,43 +64,81 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 router.get('/new', async (req, res) => {
-    res.render('add-post', {
-      layout: 'main',
+  res.render('add-post', {
+  layout: 'dashboard',
+});
+});
+
+
+router.get('/dashboard', async (req, res) => {
+  try {
+    const dbPostData = await Post.findAll({
+      where: {
+        // use the ID from the session
+        user_id: req.session.user_id,
+      },
+    });
+    const posts = dbPostData.map((post) =>
+    post.get({ plain: true })
+  );
+  
+  res.render('dashboard', {
+    layout: 'dashboard', posts,
+  });
+} catch (err) {
+  console.log(err);
+  res.status(500).json(err);
+}
+});
+
+router.get('/posts/:id', (req, res) => {
+  Post.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [{ model: User }],
+    include: [{ model: Comment }],
+  })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+      }
+
+      // serialize the data
+      const post = dbPostData.get({ plain: true });
+
+      // pass data to template
+      res.render('single-post', {
+        layout: 'dashboard',
+          post,
+          loggedIn: req.session.loggedIn
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
     });
 });
 
-router.post('/new', async (req, res) => {
+router.delete('posts/:id', async (req, res) => {
   try {
-    const dbPostData = await Post.findOne({
+    const [affectedRows] = Post.destroy({
       where: {
-        post_title: req.body.post_title,
-        post_text: req.body.post_text,
+        id: req.params.id,
       },
     });
 
-    if (!dbPostData) {
-      res
-        .status(400)
-        .json({ message: 'Please enter a text and title!' });
-      return;
+    if (affectedRows > 0) {
+      res.status(200).end();
+    } else {
+      res.status(404).end();
     }
-
-    req.session.save(() => {
-      req.session.userId = dbPostData.id;
-      req.session.loggedIn = true;
-      res
-        .status(200)
-        .json({ post: dbPostData, message: 'You are now logged in!' });
-    });
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
-router.get('/dashboard', (req, res) => {
-  res.render('dashboard', {
-    layout: 'dashboard',
-  });
-});
+
+
 
 module.exports = router;

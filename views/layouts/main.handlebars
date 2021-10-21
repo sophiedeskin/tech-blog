@@ -15,14 +15,14 @@
     <!-- If the user is logged in, show a logout button -->
     {{#if loggedIn}}
     <a class = "p-4" href="/">Home</a>
-    <button id="logout" class="btn-no-style">Logout</button>
-    <a class = "p-4" href="/new">Create New Job</a>
-    <a class = "p-4" href="/dashboard">Dashboard</a>
+    <button id="logout" class="p-4">Logout</button>
+    <a class = "p-2" href="/new">Create New Job</a>
+    <a class = "p-2" href="/dashboard">Dashboard</a>
     {{else}}
     <!-- Otherwise, show a link to login -->
-    <a class = "p-4" href="/">Home</a>
-    <a class = "p-4" href="/signup">Sign up</a>
-    <a class = "p-4" href="/login">Login</a>
+    <a class = "p-2" href="/">Home</a>
+    <a class = "p-2" href="/signup">Sign up</a>
+    <a class = "p-2" href="/login">Login</a>
     {{/if}}
    
     

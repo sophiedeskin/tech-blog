@@ -17,11 +17,44 @@ router.get('/', async (req, res) => {
   }
 });
 
+// router.get('/:id', (req, res) => {
+//   Post.findOne({
+//     where: {
+//       id: req.params.id
+//     },
+//     include: [
+//       {
+//         model: User,
+//       },
+//       {
+//         model: Comment,
+//         include: {
+//           model: User,
+//         }
+//       }
+//     ]
+//   })
+//     .then(dbPostData => {
+//       if (!dbPostData) {
+//         res.status(404).json({ message: 'No post found with this id' });
+//         return;
+//       }
+//       res.json(dbPostData);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
+
 router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   try {
-    const dbPostData = await Post.findByPk(req.params.id, {
+    const dbPostData = await  Post.findOne({
+      where: {
+        id: req.params.id
+      },
       include: [{ model: User }],
       include: [{ model: Comment }],
     });
@@ -40,18 +73,17 @@ router.get('/:id', async (req, res) => {
 
 
 // CREATE new user
-router.post("/", withAuth, async (req, res) => {
+router.post('/',  async (req, res) => {
+  console.log(req.body)
   try {
-      const dbPostData = await Post.create({
-          ...req.body,
-          user_id: req.session.user_id,
-      });
-      res.status(200).json(dbPostData)
+
+    const newPost = await Post.create({...req.body, user_id: req.session.user_id})
+    res.json(newPost)
   } catch (err) {
-      res.status(400).json("failed to create post!")
-      console.log(err)
+    console.log(err);
+    res.status(500).json(err);
   }
-})
+});
 
 router.put('/:id', async (req, res) => {
   // update a post by its `id` value
@@ -74,26 +106,23 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-    try {
-        const dbPostData = await Post.destroy({
-            where: {
-                id: req.params.id
-              }
-        });
-        if (!dbPostData) {
-            res.status(404).json({ message: 'No post found with this id!' });
-            return;
-          }
-      
-        req.session.save(() => {
-          req.session.loggedIn = true;
-          res.status(200).json(dbPostData);
-        });
-      } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-      }
-  });
+  try {
+    const [affectedRows] = Post.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (affectedRows > 0) {
+      res.status(200).end();
+    } else {
+      res.status(404).end();
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 
 module.exports = router;
