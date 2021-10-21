@@ -1,0 +1,16 @@
+<style>
+  
+</style>
+  <div class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl edit-post">
+    <input class="title border border-gray-300 p-2 mb-4 outline-none" id="title" spellcheck="false" value="{{post.post_title}}" type="text">
+    <input class="description sec p-3 h-60 border border-gray-300 outline-none" id="content" spellcheck="false" value="{{post.post_text}}"></input>
+    <!-- buttons -->
+    <div class="buttons flex">
+      <a class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto" href="/dashboard">Cancel</a>
+      {{!-- <button type="submit" class= "btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500 add-post">Post</div>
+    </button> --}}
+    <a class="buttons flex btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500 add-post" id="edit-post">Edit Post</a>
+      <script src="/js/edit-post.js"></script>
+  </div>
+
+ 

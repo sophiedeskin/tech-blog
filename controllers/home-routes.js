@@ -110,7 +110,7 @@ router.get('/posts/:id', (req, res) => {
 
       // pass data to template
       res.render('single-post', {
-        layout: 'dashboard',
+        layout: 'main',
           post,
           loggedIn: req.session.loggedIn
         });
@@ -138,6 +138,44 @@ router.delete('posts/:id', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+router.get('/edit/:id', (req, res) => {
+  Post.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: Comment,
+        include: {
+          model: User,
+        }
+      },
+      {
+        model: User,
+      }
+    ]
+  })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+      }
+
+      // serialize the data
+      const post = dbPostData.get({ plain: true });
+
+      res.render('edit-post', {
+          post,
+          loggedIn: true
+          });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
 
 
 
