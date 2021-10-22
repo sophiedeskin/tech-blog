@@ -1,19 +1,16 @@
 {{!-- 
          <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">Add a new comment</h2>
             <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="body" placeholder='Type Your Comment' required></textarea> --}}
-<div class="comments">
+
   {{#each this}}
           <!--     comment-->
 <div class="bg-white rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-lg grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-1 m-5 mb-10">
   <div class="flex flex-row justify-left mr-2">
-    <h3 class="text-purple-600 font-semibold text-lg text-center md:text-left "><p class="text-right text-xs">{{user.username}}</h3>
+    <h3 class="text-purple-600 font-semibold text-lg text-center md:text-left ">{{user.username}} Sophie {{format_date created_at}}</h3>
   </div>
-
-
     <p style="width: 90%" class="text-gray-600 text-lg text-center md:text-left ">{{comment_text}}</p>
 
 </div>
-   <p class="text-right text-xs">{{user.username}}</p>
 <!--  comment end--><!--     comment-->
   {{!-- <section class="comment">
     <div class="meta">

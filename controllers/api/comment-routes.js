@@ -7,8 +7,6 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
   try {
     const dbCommentData = await Comment.findAll({
-        include: [{ model: User }],
-        include: [{ model: Post }],
     });
     res.status(200).json(dbCommentData);
   } catch (err) {
@@ -21,11 +19,7 @@ router.get('/', async (req, res) => {
 router.post('/', (req, res) => {
   // check the session
   if (req.session) {
-    Comment.create({
-      comment_text: req.body.comment_text,
-      post_id: req.body.post_id,
-      // use the id from the session
-      user_id: req.session.user_id,
+    Comment.create({...req.body, user_id: req.session.user_id
     })
       .then(dbCommentData => res.json(dbCommentData))
       .catch(err => {
